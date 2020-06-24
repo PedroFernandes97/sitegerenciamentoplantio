@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/index.xhtml">
+	<ui:define name="conteudo">
+		<b:container>
+			<h1 align="center">Cadastro de Fazenda</h1>
+			<br />
+			<b:form id="formFazenda">
+				<b:well>
+					<b:row>
+						<b:column>
+							<b:commandButton look="primary" value="Novo Cadastro"
+								action="#{fazendaBean.novoCadastro}">
+							</b:commandButton>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2">
+							<h5 />Código:<b:inputText value="#{fazendaBean.fazenda.codigo}"
+								readonly="true" />
+						</b:column>
+						<b:column span="10">
+							<h5 />Nome:
+							<b:inputText id="nome" value="#{fazendaBean.fazenda.nome}" />
+							<p:message for="nome" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column>
+							<br />
+							<b:commandButton style="float: right;" look="success"
+								value="Salvar" action="#{fazendaBean.salvar}"
+								update="formFazenda" oncomplete="location.reload()"/>
+						</b:column>
+					</b:row>
+				</b:well>
+				<b:well>
+					<b:row>
+						<b:column>
+							<p:dataTable id="dataTable" var="fazenda" value="#{fazendaBean.fazendas}"
+								selectionMode="single"
+								selection="#{fazendaBean.fazendaSelecionada}"
+								rowKey="#{fazenda.codigo}" paginator="true"
+								paginatorPosition="top" rows="5"
+								emptyMessage="Não há fazendas cadastradas."
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros encontrados."
+								rowsPerPageTemplate="5,10,20,50,100">
+								<f:facet name="header" style="background-color:green">
+							        Fazendas Cadastradas
+							    </f:facet>
+								<p:ajax event="rowSelect" async="true"
+									listener="#{fazendaBean.onRowSelect}" update="formFazenda" />
+								<p:ajax event="rowUnselect"
+									listener="#{fazendaBean.onRowUnSelect}" async="true" />
+								<p:column headerText="Código" style="width:100px;">
+									<h:outputText value="#{fazenda.codigo}" />
+								</p:column>
+								<p:column headerText="Nome">
+									<h:outputText value="#{fazenda.nome}" />
+								</p:column>
+								<p:column headerText="Ação"
+									style="width:95px;text-align:center;">
+									<b:commandButton look="danger" value="Excluir"
+										update="formFazenda" action="#{fazendaBean.excluir}">
+									</b:commandButton>
+								</p:column>
+							</p:dataTable>
+						</b:column>
+					</b:row>
+				</b:well>
+			</b:form>
+		</b:container>
+	</ui:define>
+</ui:composition>
+</html>

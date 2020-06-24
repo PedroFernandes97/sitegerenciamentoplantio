@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/index.xhtml">
+	<ui:define name="conteudo">
+		<b:container>
+			<h1 align="center">Listar Atividades</h1>
+			<br />
+			<b:form id="formAtividades">
+				<b:well>
+					<b:row>
+						<b:column>
+							<p:dataTable var="atividade" value="#{atividadesBean.atividades}"
+								selectionMode="single"
+								selection="#{atividadesBean.atividadeSelecionada}"
+								rowKey="#{atividade.codigo}" paginator="true"
+								paginatorPosition="top" rows="5"
+								emptyMessage="Não há atividades cadastradas."
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros encontrados."
+								rowsPerPageTemplate="5,10,20,50,100">
+								<f:facet name="header">
+							        Atividades Cadastradas
+							    </f:facet>
+								<p:ajax event="rowSelect" async="true"
+									listener="#{atividadesBean.onRowSelect}"
+									update="formAtividades" />
+								<p:ajax event="rowUnselect"
+									listener="#{atividadesBean.onRowUnSelect}" async="true" />
+								<p:column style="text-align:center" headerText="Fazenda"
+									sortBy="#{atividade.codPlantio.codSetor.codFazenda.nome}">
+									<h:outputText
+										value="#{atividade.codPlantio.codSetor.codFazenda.nome}" />
+								</p:column>
+								<p:column style="text-align:center" headerText="Setor"
+									sortBy="#{atividade.codPlantio.codSetor.nome}">
+									<h:outputText value="#{atividade.codPlantio.codSetor.nome}" />
+								</p:column>
+								<p:column style="text-align:center" headerText="Plantio"
+									sortBy="#{atividade.codPlantio.nome}">
+									<h:outputText value="#{atividade.codPlantio.nome}" />
+								</p:column>
+								<p:column style="text-align:center" headerText="Atividade"
+									sortBy="#{atividade.nome}">
+									<h:outputText value="#{atividade.nome}" />
+								</p:column>
+								<p:column style="text-align:center"
+									headerText="Data de Planejamento"
+									sortBy="#{atividade.dataPlanejamento}">
+									<h:outputText id="gridDataIniSafra"
+										value="#{atividade.dataPlanejamento}">
+										<f:convertDateTime pattern="dd/MM/YYYY" />
+									</h:outputText>
+								</p:column>
+								<p:column style="text-align:center" headerText="Data de Inicio"
+									sortBy="#{atividade.dataInicio}">
+									<h:outputText value="#{atividade.dataInicio}">
+										<f:convertDateTime pattern="dd/MM/YYYY" />
+									</h:outputText>
+								</p:column>
+								<p:column style="text-align:center" headerText="Data de Término"
+									sortBy="#{atividade.dataFim}">
+									<h:outputText value="#{atividade.dataFim}">
+										<f:convertDateTime pattern="dd/MM/YYYY" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+						</b:column>
+					</b:row>
+				</b:well>
+			</b:form>
+		</b:container>
+	</ui:define>
+</ui:composition>
+</html>

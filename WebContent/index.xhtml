@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>Gerenciamento de Plantio</title>
+</h:head>
+<h:body>
+	<ui:insert name="cabecalho">
+		<b:navBar static="true" brand="Gerenciamento de Plantio"
+			style="border-color:green" brandHref="/sitegerenciamentoplantio">
+			<b:navbarLinks pull="right" styleClass="hidden-xs">
+				<b:navLink value="Fazenda" href="CadastroFazenda.xhtml"></b:navLink>
+				<b:navLink value="Setor" href="CadastroSetor.xhtml"></b:navLink>
+				<b:navLink value="Plantio" href="CadastroPlantio.xhtml"></b:navLink>
+				<b:dropMenu value="Atividades" href="#">
+					<b:navLink value="Cadastrar" href="CadastroAtividades.xhtml"></b:navLink>
+					<b:navLink value="Editar" href="EditarAtividades.xhtml"></b:navLink>
+					<b:navLink value="Remover" href="RemoverAtividades.xhtml"></b:navLink>
+					<b:navLink value="Finalizar" href="FinalizarAtividades.xhtml"></b:navLink>
+					<b:navLink value="Listar" href="ListarAtividades.xhtml"></b:navLink>
+				</b:dropMenu>
+			</b:navbarLinks>
+		</b:navBar>
+	</ui:insert>
+	<ui:insert name="conteudo">
+		<b:thumbnail>
+			<b:image height="100%" width="100%" value="index-wallpaper.jpg" />
+		</b:thumbnail>
+	</ui:insert>
+	<ui:insert name="rodape">
+	</ui:insert>
+</h:body>
+</html>

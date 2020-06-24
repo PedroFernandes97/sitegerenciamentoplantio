@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/index.xhtml">
+	<ui:define name="conteudo">
+		<b:container>
+			<h1 align="center">Cadastro de Setores</h1>
+			<br />
+			<b:form id="formSetor">
+				<b:well>
+					<b:row>
+						<b:column>
+							<b:commandButton look="primary"
+								value="Novo Cadastro" action="#{setorBean.novoCadastro}">
+							</b:commandButton>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2">
+							<h5 />Código:<b:inputText value="#{setorBean.setor.codigo}"
+								readonly="true" />
+						</b:column>
+						<b:column span="10">
+							<h5 />Nome:
+							<b:inputText id="nome" value="#{setorBean.setor.nome}" />
+							<p:message for="nome" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="12">
+							<h5 />Fazenda:<b:selectOneMenu id="fazenda"
+								value="#{setorBean.setor.codFazenda}">
+								<f:selectItem itemLabel="(Selecione uma fazenda...)" itemValue="" noSelectionOption="true" />
+								<f:selectItems value="#{setorBean.fazendas}" var="fazenda"
+									itemLabel="#{fazenda.nome}" itemValue="#{fazenda}"/>
+							</b:selectOneMenu>
+							<p:message for="fazenda" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="12">
+							<h5 />Área (ha):<b:inputText id="area"
+								value="#{setorBean.setor.area}" />
+							<p:message for="area" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column>
+							<br />
+							<b:commandButton style="float: right;" look="success"
+								value="Salvar" action="#{setorBean.salvar}" />
+						</b:column>
+					</b:row>
+				</b:well>
+				<b:well>
+					<b:row>
+						<b:column>
+							<p:dataTable var="setor" value="#{setorBean.setores}"
+								selectionMode="single" selection="#{setorBean.setorSelecionado}"
+								rowKey="#{setor.codigo}" paginator="true"
+								paginatorPosition="top" rows="5"
+								emptyMessage="Não há setores cadastradas."
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros encontrados."
+								rowsPerPageTemplate="5,10,20,50,100">
+								<f:facet name="header">
+							        Setores Cadastradas
+							    </f:facet>
+								<p:ajax event="rowSelect" async="true"
+									listener="#{setorBean.onRowSelect}" update="formSetor" />
+								<p:ajax event="rowUnselect"
+									listener="#{setorBean.onRowUnSelect}" async="true" />
+								<p:column headerText="Código" style="width:100px;">
+									<h:outputText value="#{setor.codigo}" />
+								</p:column>
+								<p:column headerText="Nome">
+									<h:outputText value="#{setor.nome}" />
+								</p:column>
+								<p:column headerText="Fazenda">
+									<h:outputText value="#{setor.codFazenda.nome}" />
+								</p:column>
+								<p:column headerText="Área (ha)">
+									<h:outputText value="#{setor.area}" />
+								</p:column>
+								<p:column headerText="Ação"
+									style="width:95px;text-align:center;">
+									<b:commandButton look="danger" value="Excluir"
+										update="formSetor" action="#{setorBean.excluir}">
+									</b:commandButton>
+								</p:column>
+							</p:dataTable>
+						</b:column>
+					</b:row>
+				</b:well>
+			</b:form>
+		</b:container>
+	</ui:define>
+</ui:composition>
+</html>

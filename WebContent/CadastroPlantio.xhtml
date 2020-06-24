@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/index.xhtml">
+	<ui:define name="conteudo">
+		<b:container>
+			<h1 align="center">Cadastro de Plantio</h1>
+			<br />
+			<b:form id="formPlantio">
+				<b:well>
+					<b:row>
+						<b:column>
+							<b:commandButton look="primary"
+								value="Novo Cadastro" action="#{plantioBean.novoCadastro}">
+							</b:commandButton>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2">
+							<h5 />Código:<b:inputText value="#{plantioBean.plantio.codigo}"
+								readonly="true" />
+						</b:column>
+						<b:column span="10">
+							<h5 />Nome:
+							<b:inputText id="nome" value="#{plantioBean.plantio.nome}" />
+							<p:message for="nome" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="12">
+							<h5 />Fazenda:<b:selectOneMenu id="fazenda"
+								value="#{plantioBean.plantio.codFazenda}">
+								<f:selectItem itemLabel="(Selecione uma fazenda...)"
+									itemValue="" noSelectionOption="true" />
+								<f:selectItems value="#{plantioBean.setores}" var="fazenda"
+									itemLabel="#{fazenda.codFazenda.nome}"
+									itemValue="#{fazenda.codFazenda}" />
+							</b:selectOneMenu>
+							<p:message for="fazenda" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="12">
+							<h5 />Setor:<b:selectOneMenu id="setor"
+								value="#{plantioBean.plantio.codSetor}">
+								<f:selectItem itemLabel="(Selecione um setor...)" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems value="#{plantioBean.setores}" var="setor"
+									itemLabel="#{setor.nome}" itemValue="#{setor}" />
+							</b:selectOneMenu>
+							<p:message for="setor" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="12">
+							<h5 />Safra:
+							<b:inputText id="safra" value="#{plantioBean.plantio.safra}" />
+							<p:message for="safra" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="6">
+							<h5 />Inicio da Safra:
+							<b:dateTimePicker show-time="false" format="DD/MM/YYYY"
+								id="dataIniSafra" value="#{plantioBean.plantio.dataInicioSafra}" />
+							<p:message for="dataIniSafra" />
+						</b:column>
+						<b:column span="6">
+							<h5 />Fim da Safra:
+							<b:dateTimePicker show-time="false" format="DD/MM/YYYY"
+								id="dataFimSafra" value="#{plantioBean.plantio.dataFimSafra}" />
+							<p:message for="dataFimSafra" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="12">
+							<h5 />Cultura:<b:selectOneMenu id="cultura"
+								value="#{plantioBean.plantio.cultura}">
+								<f:selectItem itemLabel="(Selecione uma cultura...)"
+									itemValue="" noSelectionOption="true" />
+								<f:selectItem itemLabel="Café" itemValue="Café" />
+								<f:selectItem itemLabel="Milho" itemValue="Milho" />
+								<f:selectItem itemLabel="Soja" itemValue="Soja" />
+								<f:selectItem itemLabel="Sorgo" itemValue="Sorgo" />
+							</b:selectOneMenu>
+							<p:message for="cultura" />
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column>
+							<br />
+							<b:commandButton style="float: right;" look="success"
+								value="Salvar" action="#{plantioBean.salvar}" />
+						</b:column>
+					</b:row>
+				</b:well>
+				<b:well>
+					<b:row>
+						<b:column>
+							<p:dataTable var="plantio" value="#{plantioBean.plantios}"
+								selectionMode="single"
+								selection="#{plantioBean.plantioSelecionado}"
+								rowKey="#{plantio.codigo}" paginator="true"
+								paginatorPosition="top" rows="5"
+								emptyMessage="Não há plantios cadastradas."
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros encontrados."
+								rowsPerPageTemplate="5,10,20,50,100">
+								<f:facet name="header">
+							        Plantios Cadastradas
+							    </f:facet>
+								<p:ajax event="rowSelect" async="true"
+									listener="#{plantioBean.onRowSelect}" update="formPlantio" />
+								<p:ajax event="rowUnselect"
+									listener="#{plantioBean.onRowUnSelect}" async="true" />
+								<p:column style="text-align:center" headerText="Fazenda">
+									<h:outputText value="#{plantio.codFazenda.nome}" />
+								</p:column>
+								<p:column style="text-align:center" headerText="Setor">
+									<h:outputText value="#{plantio.codSetor.nome}" />
+								</p:column>
+								<p:column style="text-align:center" headerText="Plantio">
+									<h:outputText value="#{plantio.nome}" />
+								</p:column>
+								<p:column style="text-align:center" headerText="Safra">
+									<h:outputText value="#{plantio.safra}" />
+								</p:column>
+								<p:column style="text-align:center" headerText="Inicio da Safra">
+									<h:outputText id="gridDataIniSafra"
+										value="#{plantio.dataInicioSafra}">
+										<f:convertDateTime pattern="dd/MM/YYYY" />
+									</h:outputText>
+								</p:column>
+								<p:column style="text-align:center" headerText="Fim da Safra">
+									<h:outputText value="#{plantio.dataFimSafra}">
+										<f:convertDateTime pattern="dd/MM/YYYY" />
+									</h:outputText>
+								</p:column>
+								<p:column style="text-align:center" headerText="Cultura">
+									<h:outputText value="#{plantio.cultura}" />
+								</p:column>
+								<p:column headerText="Ação"
+									style="width:95px;text-align:center;">
+									<b:commandButton look="danger" value="Excluir"
+										update="formPlantio" action="#{plantioBean.excluir}">
+									</b:commandButton>
+								</p:column>
+							</p:dataTable>
+						</b:column>
+					</b:row>
+				</b:well>
+			</b:form>
+		</b:container>
+	</ui:define>
+</ui:composition>
+</html>
